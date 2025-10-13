@@ -18,10 +18,16 @@ numSums n = length [xs | k <- [1..n],
                          sum xs == n,
                          and [x <= y | (x,y) <- zip xs (tail xs)]]
                          
---p3
+-- p3 
 ballsIntoBins :: Int -> Int -> Int
-ballsIntoBins k n = length [xs | xs <- iteratedCartesianProduct [1..n] k,
-                                 and [i `elem` xs | i <- [1..n]]]
+ballsIntoBins k n =
+  length [xs | xs <- compositions k n, all (>0) xs]
+  where
+    compositions _ 0 = [[]]
+    compositions m c
+      | c == 1    = [[m]]
+      | otherwise = [x:rest | x <- [0..m], rest <- compositions (m - x) (c - 1)]
+
  
 --p4
 -- a
